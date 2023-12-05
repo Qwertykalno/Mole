@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<style type="text/css">
+		.prop {
+			position: absolute;
+			height: 100px;
+			width: 100px;
+			background-image: url('hole.jpg');
+			background-size: 100% 100%;
+
+		}
+		.mole{
+			height: 100px;
+			width: 100px;
+			position: absolute;
+			transition: 1s;
+			background-size: 100% 100%;
+		}
+	</style>
+</head>
+<body>
+<h1 class="text">Score:<span class="score">0</span></h1>
+<h1 class="text">Time:<span class="time">10</span></h1>
+<!-- дивы норы чтобы появится -->
+<div class="bg-warning prop first" style="top: 100px; left: 500px"></div>
+<div class="bg-warning prop" style="top: 100px; left: 700px"></div>
+<div class="bg-warning prop" style="top: 100px; left: 900px"></div>
+
+<div class="bg-warning prop" style="top: 300px; left: 500px"></div>
+<div class="bg-warning prop" style="top: 300px; left: 700px"></div>
+<div class="bg-warning prop" style="top: 300px; left: 900px"></div>
+
+<div class="bg-warning prop" style="top: 500px; left: 500px"></div>
+<div class="bg-warning prop" style="top: 500px; left: 700px"></div>
+<div class="bg-warning prop" style="top: 500px; left: 900px"></div>
+
+
+
+<script type="text/javascript">
+	let firstNora = document.querySelector('.first')
+	let types = ['good', 'bad']
+	let x = [500, 700, 900]
+	let y = [100, 300, 500]
+	let point = 0
+	let score = document.querySelector('.score')
+	let T = 10
+	let time = document.querySelector('.time')
+
+
+	let createMoll = function() {	
+		let mole = document.createElement('div')
+		document.body.appendChild(mole)
+		firstNora.before(mole)
+		mole.classList.add('mole')
+
+		let type_index = Math.round(Math.random()*1)
+		mole.myType = types[type_index]
+
+		if(mole.myType == 'good') {
+			mole.style.backgroundImage = 'url(mole.png)'
+		}
+
+		if(mole.myType == 'bad') {
+			mole.style.backgroundImage = 'url(bomb.png)'
+		}
+
+		let randomX = Math.round(Math.random()*2)
+		mole.style.left = x[randomX] + 'px'
+		let randomY = Math.round(Math.random()*2)
+		mole.style.top = y[randomY] + 'px'
+		let show = function() {
+			mole.style.top = y[randomY]-100+'px';
+		}
+		setTimeout(show, 1000)
+
+		let hide = function() {
+			mole.style.top = y[randomY]+'px';
+		}
+		setTimeout(hide, 2000)
+
+		mole.onclick = function() {
+		mole.style.display = 'none'
+		if(mole.myType == 'good') {
+		point = point + 30
+		score.innerHTML = point
+		}
+		if(mole.myType == 'bad') {
+		point = point - 20
+		score.innerHTML = point
+		}
+		}
+		
+	}
+		let timer = function() {
+			T = T - 1
+			time.innerHTML = T
+
+			if(T==0) {
+				clearInterval(interval1)
+				clearInterval(interval2)
+			}
+		}
+	interval1 = setInterval(createMoll, 1000)
+	interval2 = setInterval(timer, 1000)
+</script>
+</body>
+</html>
